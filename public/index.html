@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Каталог товаров</h1>
+    <div id="product-list" class="product-list"></div>
+
+    <script>
+        async function loadProducts() {
+            const response = await fetch('/api/products');
+            const products = await response.json();
+            
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.classList.add('product-card');
+                productCard.innerHTML = `
+                    <h2>${product.name}</h2>
+                    <p><strong>Цена:</strong> ${product.price} руб.</p>
+                    <p>${product.description}</p>
+                `;
+                productList.appendChild(productCard);
+            });
+        }
+
+        loadProducts();
+    </script>
+</body>
+</html>

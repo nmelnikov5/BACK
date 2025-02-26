@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        input, button { display: block; margin: 10px 0; padding: 10px; width: 100%; }
+        textarea { width: 100%; height: 100px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Панель администратора</h1>
+        
+        <h2>Добавить товар</h2>
+        <input type="text" id="name" placeholder="Название">
+        <input type="number" id="price" placeholder="Цена">
+        <textarea id="description" placeholder="Описание"></textarea>
+        <button onclick="addProduct()">Добавить товар</button>
+        
+        <h2>Обновить товар</h2>
+        <input type="number" id="updateId" placeholder="ID товара">
+        <input type="text" id="updateName" placeholder="Новое название">
+        <input type="number" id="updatePrice" placeholder="Новая цена">
+        <textarea id="updateDescription" placeholder="Новое описание"></textarea>
+        <button onclick="updateProduct()">Обновить товар</button>
+        
+        <h2>Удалить товар</h2>
+        <input type="number" id="deleteId" placeholder="ID товара">
+        <button onclick="deleteProduct()">Удалить товар</button>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:3000/api/products";
+        
+        function addProduct() {
+            const product = {
+                name: document.getElementById("name").value,
+                price: parseFloat(document.getElementById("price").value),
+                description: document.getElementById("description").value
+            };
+            fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(product)
+            }).then(res => res.json()).then(alert);
+        }
+        
+        function updateProduct() {
+            const id = document.getElementById("updateId").value;
+            const updatedProduct = {
+                name: document.getElementById("updateName").value,
+                price: parseFloat(document.getElementById("updatePrice").value),
+                description: document.getElementById("updateDescription").value
+            };
+            fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedProduct)
+            }).then(res => res.json()).then(alert);
+        }
+        
+        function deleteProduct() {
+            const id = document.getElementById("deleteId").value;
+            fetch(`${API_URL}/${id}`, { method: "DELETE" })
+                .then(res => res.json())
+                .then(data => {
+            alert(`Товар с ID ${id} успешно удалён!`);
+        })
+        }
+    </script>
+</body>
+</html>
