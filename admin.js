@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "admin.html"));
 });
 
-// Получить все товары
+
 app.get("/api/products", (req, res) => {
     const filePath = path.join(__dirname, "products.json");
     fs.readFile(filePath, "utf8", (err, data) => {
@@ -24,7 +24,7 @@ app.get("/api/products", (req, res) => {
     });
 });
 
-// Добавить новый товар
+
 app.post("/api/products", (req, res) => {
     fs.readFile(filePath, "utf8", (err, data) => {
         if (err) {
@@ -45,7 +45,7 @@ app.post("/api/products", (req, res) => {
     });
 });
 
-// Обновить товар по ID
+
 app.put("/api/products/:id", (req, res) => {
     fs.readFile(filePath, "utf8", (err, data) => {
         if (err) {
@@ -68,7 +68,6 @@ app.put("/api/products/:id", (req, res) => {
     });
 });
 
-// Удалить товар по ID
 app.delete("/api/products/:id", (req, res) => {
     fs.readFile(filePath, "utf8", (err, data) => {
         if (err) {
